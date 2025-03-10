@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -23,16 +22,12 @@ const queryClient = new QueryClient();
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   
-  // Check authentication status on load and when localStorage changes
   useEffect(() => {
     const checkAuth = () => {
       setIsAuthenticated(authService.isAuthenticated());
     };
     
-    // Check initially
     checkAuth();
-    
-    // Listen for localStorage changes
     window.addEventListener('storage', checkAuth);
     
     return () => {
@@ -47,12 +42,37 @@ const App = () => {
         <Sonner />
         <BrowserRouter>
           <Routes>
-            {/* Show index only if not authenticated, otherwise redirect to dashboard */}
-            <Route path="/" element={
-              isAuthenticated ? <Navigate to="/dashboard" replace /> : <Index />
-            } />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
+            {/* Non-authenticated routes */}
+            <Route 
+              path="/" 
+              element={
+                isAuthenticated ? (
+                  <Navigate to="/dashboard" replace />
+                ) : (
+                  <Index />
+                )
+              } 
+            />
+            <Route 
+              path="/login" 
+              element={
+                isAuthenticated ? (
+                  <Navigate to="/dashboard" replace />
+                ) : (
+                  <Login />
+                )
+              } 
+            />
+            <Route 
+              path="/register" 
+              element={
+                isAuthenticated ? (
+                  <Navigate to="/dashboard" replace />
+                ) : (
+                  <Register />
+                )
+              } 
+            />
             
             {/* Protected routes */}
             <Route path="/dashboard" element={

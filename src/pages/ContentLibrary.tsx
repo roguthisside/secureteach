@@ -5,13 +5,13 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import LibraryNav from '@/components/LibraryNav';
 import { 
   Search, 
   PlusCircle,
   FileVideo,
   Clock,
   Settings,
-  ExternalLink,
   Trash2
 } from 'lucide-react';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
@@ -125,6 +125,8 @@ const ContentLibrary = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
+      <LibraryNav />
+      
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <div>
           <h1 className="text-3xl font-bold">Content Library</h1>
