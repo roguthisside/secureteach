@@ -196,7 +196,7 @@ const Index = () => {
               {/* Step 1 */}
               <div className="flex flex-col items-center text-center">
                 <div className="h-16 w-16 rounded-full bg-primary/10 text-primary flex items-center justify-center mb-5 relative">
-                  <Upload className="h-7 w-7" />
+                  <FileVideo className="h-7 w-7" />
                   <div className="absolute top-0 right-0 bg-primary text-white h-6 w-6 rounded-full flex items-center justify-center text-sm font-medium">
                     1
                   </div>
