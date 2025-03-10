@@ -17,6 +17,7 @@ const Login = () => {
   
   const navigate = useNavigate();
   const location = useLocation();
+  // Get the redirect path from location state or default to dashboard
   const from = (location.state as any)?.from || '/dashboard';
   
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,7 +38,8 @@ const Login = () => {
     try {
       await authService.login(credentials);
       toast.success('Login successful');
-      navigate(from, { replace: true });
+      // Force navigation to dashboard after successful login
+      navigate('/dashboard', { replace: true });
     } catch (error) {
       toast.error('Invalid email or password');
       console.error('Login error:', error);
