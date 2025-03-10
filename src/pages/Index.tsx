@@ -10,7 +10,8 @@ import {
   Tv2, 
   Fingerprint,
   ArrowRight,
-  CheckCircle 
+  CheckCircle,
+  FileVideo
 } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
