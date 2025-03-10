@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -16,9 +16,13 @@ const Login = () => {
   });
   
   const navigate = useNavigate();
-  const location = useLocation();
-  // Get the redirect path from location state or default to dashboard
-  const from = (location.state as any)?.from || '/dashboard';
+  
+  // Check if already logged in and redirect if necessary
+  useEffect(() => {
+    if (authService.isAuthenticated()) {
+      navigate('/dashboard', { replace: true });
+    }
+  }, [navigate]);
   
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;

@@ -10,7 +10,9 @@ const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
   
   useEffect(() => {
     if (!isAuthenticated) {
-      toast.error('Please log in to access this page');
+      toast.error('Please log in to access this page', {
+        duration: 3000,
+      });
     }
   }, [isAuthenticated]);
   
