@@ -17,6 +17,8 @@ export interface WatermarkOptions {
   customText: string;
   opacity: number;
   position: 'center' | 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
+  isMoving: boolean; // New option for moving watermark
+  movementSpeed: 'slow' | 'medium' | 'fast'; // Speed of movement
 }
 
 export interface VideoContent {
@@ -52,6 +54,8 @@ export const defaultWatermarkOptions: WatermarkOptions = {
   customText: '',
   opacity: 0.5,
   position: 'center',
+  isMoving: true, // Enable moving watermark by default
+  movementSpeed: 'medium', // Default speed
 };
 
 export function generateEmbedCode(
@@ -81,6 +85,12 @@ export function generateEmbedCode(
     if (watermarkOptions.includeTimestamp) embedUrl.searchParams.append('wm_time', 'true');
     if (watermarkOptions.includeCustomText && watermarkOptions.customText) {
       embedUrl.searchParams.append('wm_text', encodeURIComponent(watermarkOptions.customText));
+    }
+    
+    // Add moving watermark options
+    embedUrl.searchParams.append('wm_moving', watermarkOptions.isMoving.toString());
+    if (watermarkOptions.isMoving) {
+      embedUrl.searchParams.append('wm_speed', watermarkOptions.movementSpeed);
     }
   }
   

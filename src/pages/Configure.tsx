@@ -9,7 +9,8 @@ import {
   Lock, 
   Fingerprint,
   Copy,
-  CheckCircle
+  CheckCircle,
+  Move
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -17,6 +18,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { toast } from 'sonner';
 
 const Configure = () => {
@@ -36,7 +38,9 @@ const Configure = () => {
     includeStudentEmail: true,
     includeTimestamp: true,
     opacity: 0.3,
-    position: 'center'
+    position: 'center',
+    isMoving: true,
+    movementSpeed: 'medium'
   });
   const [embedCode, setEmbedCode] = useState('');
 
@@ -108,6 +112,13 @@ const Configure = () => {
     setWatermarkOptions(prev => ({
       ...prev,
       opacity: value
+    }));
+  };
+
+  const handleMovementSpeedChange = (speed: 'slow' | 'medium' | 'fast') => {
+    setWatermarkOptions(prev => ({
+      ...prev,
+      movementSpeed: speed
     }));
   };
 
@@ -296,6 +307,57 @@ const Configure = () => {
                         />
                       </div>
                       
+                      {/* Moving Watermark Option */}
+                      <div className="flex items-center justify-between">
+                        <div className="space-y-0.5">
+                          <Label htmlFor="moving-watermark" className="text-base">Moving Watermark</Label>
+                          <p className="text-sm text-muted-foreground">
+                            Make watermark move across the screen to prevent camera recording
+                          </p>
+                        </div>
+                        <Switch 
+                          id="moving-watermark" 
+                          checked={watermarkOptions.isMoving}
+                          onCheckedChange={handleWatermarkOptionChange('isMoving')}
+                        />
+                      </div>
+                      
+                      {/* Movement Speed (only shown if moving is enabled) */}
+                      {watermarkOptions.isMoving && (
+                        <div className="space-y-3">
+                          <Label className="text-base">Movement Speed</Label>
+                          <RadioGroup 
+                            value={watermarkOptions.movementSpeed} 
+                            className="flex flex-col space-y-2"
+                          >
+                            <div className="flex items-center space-x-2">
+                              <RadioGroupItem 
+                                value="slow" 
+                                id="speed-slow" 
+                                onClick={() => handleMovementSpeedChange('slow')}
+                              />
+                              <Label htmlFor="speed-slow">Slow</Label>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                              <RadioGroupItem 
+                                value="medium" 
+                                id="speed-medium" 
+                                onClick={() => handleMovementSpeedChange('medium')}
+                              />
+                              <Label htmlFor="speed-medium">Medium</Label>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                              <RadioGroupItem 
+                                value="fast" 
+                                id="speed-fast" 
+                                onClick={() => handleMovementSpeedChange('fast')}
+                              />
+                              <Label htmlFor="speed-fast">Fast</Label>
+                            </div>
+                          </RadioGroup>
+                        </div>
+                      )}
+                      
                       <div className="space-y-2">
                         <Label>Watermark Position</Label>
                         <div className="grid grid-cols-3 gap-2">
@@ -306,11 +368,18 @@ const Configure = () => {
                               size="sm"
                               onClick={() => handleWatermarkPositionChange(position)}
                               className="h-10"
+                              disabled={watermarkOptions.isMoving} // Disable position selection when moving
                             >
                               {position.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
                             </Button>
                           ))}
                         </div>
+                        {watermarkOptions.isMoving && (
+                          <p className="text-xs text-muted-foreground italic mt-2">
+                            <Move className="h-3 w-3 inline mr-1" />
+                            Position selection is disabled when moving watermark is enabled
+                          </p>
+                        )}
                       </div>
                       
                       <div className="space-y-2">
