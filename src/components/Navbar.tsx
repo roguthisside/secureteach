@@ -12,7 +12,10 @@ import {
   Home,
   Library,
   User,
-  Upload
+  Upload,
+  Settings,
+  DollarSign,
+  Layers
 } from 'lucide-react';
 import { authService } from '@/utils/auth';
 import { toast } from 'sonner';
@@ -85,14 +88,32 @@ const Navbar = () => {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-6">
             {!isAuthenticated && (
-              <Link 
-                to="/" 
-                className={`text-sm font-medium transition-colors hover:text-primary ${
-                  location.pathname === '/' ? 'text-primary' : 'text-foreground/80'
-                }`}
-              >
-                Home
-              </Link>
+              <>
+                <Link 
+                  to="/" 
+                  className={`text-sm font-medium transition-colors hover:text-primary ${
+                    location.pathname === '/' ? 'text-primary' : 'text-foreground/80'
+                  }`}
+                >
+                  Home
+                </Link>
+                <Link 
+                  to="/features" 
+                  className={`text-sm font-medium transition-colors hover:text-primary ${
+                    location.pathname === '/features' ? 'text-primary' : 'text-foreground/80'
+                  }`}
+                >
+                  Features
+                </Link>
+                <Link 
+                  to="/pricing" 
+                  className={`text-sm font-medium transition-colors hover:text-primary ${
+                    location.pathname === '/pricing' ? 'text-primary' : 'text-foreground/80'
+                  }`}
+                >
+                  Pricing
+                </Link>
+              </>
             )}
             
             {isAuthenticated ? (
@@ -120,6 +141,14 @@ const Navbar = () => {
                   }`}
                 >
                   Content Library
+                </Link>
+                <Link 
+                  to="/profile" 
+                  className={`text-sm font-medium transition-colors hover:text-primary ${
+                    location.pathname === '/profile' ? 'text-primary' : 'text-foreground/80'
+                  }`}
+                >
+                  Profile
                 </Link>
               </>
             ) : null}
@@ -177,14 +206,32 @@ const Navbar = () => {
         <div className="md:hidden glass-effect border-t border-border animate-fade-in">
           <div className="container mx-auto px-4 py-4 flex flex-col gap-4">
             {!isAuthenticated && (
-              <Link 
-                to="/" 
-                className="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-accent"
-                onClick={toggleMenu}
-              >
-                <Home className="h-5 w-5" />
-                Home
-              </Link>
+              <>
+                <Link 
+                  to="/" 
+                  className="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-accent"
+                  onClick={toggleMenu}
+                >
+                  <Home className="h-5 w-5" />
+                  Home
+                </Link>
+                <Link 
+                  to="/features" 
+                  className="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-accent"
+                  onClick={toggleMenu}
+                >
+                  <Layers className="h-5 w-5" />
+                  Features
+                </Link>
+                <Link 
+                  to="/pricing" 
+                  className="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-accent"
+                  onClick={toggleMenu}
+                >
+                  <DollarSign className="h-5 w-5" />
+                  Pricing
+                </Link>
+              </>
             )}
             
             {isAuthenticated ? (
@@ -194,7 +241,7 @@ const Navbar = () => {
                   className="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-accent"
                   onClick={toggleMenu}
                 >
-                  <User className="h-5 w-5" />
+                  <Home className="h-5 w-5" />
                   Dashboard
                 </Link>
                 <Link 
@@ -212,6 +259,22 @@ const Navbar = () => {
                 >
                   <Library className="h-5 w-5" />
                   Content Library
+                </Link>
+                <Link 
+                  to="/profile" 
+                  className="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-accent"
+                  onClick={toggleMenu}
+                >
+                  <User className="h-5 w-5" />
+                  Profile
+                </Link>
+                <Link 
+                  to="/settings" 
+                  className="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-accent"
+                  onClick={toggleMenu}
+                >
+                  <Settings className="h-5 w-5" />
+                  Settings
                 </Link>
                 <Button 
                   variant="ghost" 

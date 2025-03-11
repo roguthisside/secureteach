@@ -17,6 +17,10 @@ import Configure from "./pages/Configure";
 import ContentLibrary from "./pages/ContentLibrary";
 import NotFound from "./pages/NotFound";
 import PrivateRoute from "./components/PrivateRoute";
+import Features from "./pages/Features";
+import Pricing from "./pages/Pricing";
+import Settings from "./pages/Settings";
+import Profile from "./pages/Profile";
 
 const queryClient = new QueryClient();
 
@@ -75,6 +79,10 @@ const App = () => {
               } 
             />
             
+            {/* Public routes - accessible to all users */}
+            <Route path="/features" element={<Features />} />
+            <Route path="/pricing" element={<Pricing />} />
+            
             {/* Protected routes */}
             <Route path="/dashboard" element={
               <PrivateRoute>
@@ -94,6 +102,16 @@ const App = () => {
             <Route path="/library" element={
               <PrivateRoute>
                 <ContentLibrary />
+              </PrivateRoute>
+            } />
+            <Route path="/settings" element={
+              <PrivateRoute>
+                <Settings />
+              </PrivateRoute>
+            } />
+            <Route path="/profile" element={
+              <PrivateRoute>
+                <Profile />
               </PrivateRoute>
             } />
             
