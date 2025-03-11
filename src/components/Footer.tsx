@@ -8,7 +8,7 @@ const Footer = () => {
   return (
     <footer className="bg-background py-12 border-t border-border">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Company Info */}
           <div className="space-y-4">
             <div className="flex items-center gap-2">
@@ -66,33 +66,6 @@ const Footer = () => {
             </ul>
           </div>
           
-          {/* Legal */}
-          <div>
-            <h3 className="font-semibold text-lg mb-4">Legal</h3>
-            <ul className="space-y-2">
-              <li>
-                <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-                  Privacy Policy
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-                  Terms of Service
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-                  Cookie Policy
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-                  GDPR Compliance
-                </a>
-              </li>
-            </ul>
-          </div>
-          
           {/* Contact */}
           <div>
             <h3 className="font-semibold text-lg mb-4">Contact Us</h3>
@@ -118,17 +91,6 @@ const Footer = () => {
         <div className="border-t border-border mt-10 pt-6 flex flex-col md:flex-row justify-between items-center">
           <div className="text-sm text-muted-foreground mb-4 md:mb-0">
             © {currentYear} SecureTeach. All rights reserved.
-          </div>
-          <div className="flex gap-6 text-sm">
-            <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-              Privacy
-            </a>
-            <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-              Terms
-            </a>
-            <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-              Cookies
-            </a>
           </div>
         </div>
       </div>

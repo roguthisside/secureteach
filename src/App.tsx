@@ -115,7 +115,7 @@ const App = () => {
                   )
                 } />
                 
-                {/* Protected routes */}
+                {/* Protected routes - no footer */}
                 <Route path="/dashboard" element={
                   <PrivateRoute>
                     <Dashboard />
