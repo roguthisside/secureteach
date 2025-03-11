@@ -52,7 +52,7 @@ const App = () => {
             <Navbar />
             <main className="flex-1">
               <Routes>
-                {/* Non-authenticated routes */}
+                {/* Public routes */}
                 <Route 
                   path="/" 
                   element={
