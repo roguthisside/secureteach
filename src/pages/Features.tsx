@@ -4,7 +4,24 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Shield, CheckCircle, Video, Fingerprint, Lock, Database, Users, Activity } from 'lucide-react';
+import { 
+  Shield, 
+  CheckCircle, 
+  Video, 
+  Fingerprint, 
+  Lock, 
+  Database, 
+  Users, 
+  Activity, 
+  BookOpen,
+  Globe,
+  Coffee,
+  Sparkles,
+  Code,
+  FileText,
+  CheckCheck,
+  ChevronRight
+} from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const Features = () => {
@@ -20,51 +37,51 @@ const Features = () => {
     security: [
       {
         title: 'Digital Watermarking',
-        description: 'Invisible watermarks embedded in every frame to prevent unauthorized sharing.',
+        description: 'Invisible watermarks embedded in every frame to prevent unauthorized sharing and identify the source of leaks.',
         icon: <Fingerprint className="h-10 w-10 text-primary" />
       },
       {
         title: 'Access Control',
-        description: 'Fine-grained permissions to control who can view your educational content.',
+        description: 'Fine-grained permissions to control who can view your educational content with time-based access options.',
         icon: <Lock className="h-10 w-10 text-primary" />
       },
       {
         title: 'Data Encryption',
-        description: 'End-to-end encryption for all your uploaded content and user data.',
+        description: 'End-to-end encryption for all your uploaded content and user data with military-grade protection.',
         icon: <Database className="h-10 w-10 text-primary" />
       },
     ],
     content: [
       {
         title: 'HD Video Quality',
-        description: 'Deliver your educational content in high definition without compromising security.',
+        description: 'Deliver your educational content in high definition without compromising security or streaming performance.',
         icon: <Video className="h-10 w-10 text-primary" />
       },
       {
         title: 'Multiple Formats',
-        description: 'Support for various video formats including MP4, AVI, MOV, and more.',
-        icon: <Shield className="h-10 w-10 text-primary" />
+        description: 'Support for various video formats including MP4, AVI, MOV, and more to accommodate all your content needs.',
+        icon: <FileText className="h-10 w-10 text-primary" />
       },
       {
         title: 'Bulk Upload',
-        description: 'Upload multiple videos at once to save time and streamline your workflow.',
+        description: 'Upload multiple videos at once to save time and streamline your workflow with automatic processing.',
         icon: <Database className="h-10 w-10 text-primary" />
       },
     ],
     analytics: [
       {
         title: 'Viewer Insights',
-        description: 'Track who watched your videos, when, and for how long to improve engagement.',
+        description: 'Track who watched your videos, when, and for how long to improve engagement and identify learning patterns.',
         icon: <Users className="h-10 w-10 text-primary" />
       },
       {
         title: 'Engagement Metrics',
-        description: 'Detailed analytics on viewer engagement to optimize your content.',
+        description: 'Detailed analytics on viewer engagement to optimize your content and understand how students interact with materials.',
         icon: <Activity className="h-10 w-10 text-primary" />
       },
       {
         title: 'Security Reports',
-        description: 'Regular reports on potential security issues and unauthorized access attempts.',
+        description: 'Regular reports on potential security issues and unauthorized access attempts to keep your content safe.',
         icon: <Shield className="h-10 w-10 text-primary" />
       },
     ]
@@ -72,9 +89,7 @@ const Features = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <Navbar />
-      
-      <main className="flex-1 pt-20">
+      <main className="flex-1">
         {/* Hero Section */}
         <section className="bg-gradient-to-b from-background to-secondary/5 py-16 md:py-24">
           <div className="container mx-auto px-4 text-center">
@@ -140,8 +155,70 @@ const Features = () => {
           </div>
         </section>
         
-        {/* Why Choose Us */}
+        {/* Use Cases Section - New */}
         <section className="py-16 bg-secondary/5">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold mb-4">Perfect For</h2>
+              <p className="text-muted-foreground max-w-2xl mx-auto">
+                SecureTeach is designed for a variety of educational content creators
+              </p>
+            </div>
+            
+            <div className="grid md:grid-cols-4 gap-6">
+              <Card className="text-center hover:shadow-md transition-all">
+                <CardHeader>
+                  <BookOpen className="h-10 w-10 text-primary mx-auto mb-2" />
+                  <CardTitle>Course Creators</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <CardDescription className="text-foreground/80">
+                    Protect premium courses from unauthorized sharing and piracy
+                  </CardDescription>
+                </CardContent>
+              </Card>
+              
+              <Card className="text-center hover:shadow-md transition-all">
+                <CardHeader>
+                  <Globe className="h-10 w-10 text-primary mx-auto mb-2" />
+                  <CardTitle>Online Schools</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <CardDescription className="text-foreground/80">
+                    Manage content access for enrolled students across multiple courses
+                  </CardDescription>
+                </CardContent>
+              </Card>
+              
+              <Card className="text-center hover:shadow-md transition-all">
+                <CardHeader>
+                  <Coffee className="h-10 w-10 text-primary mx-auto mb-2" />
+                  <CardTitle>Consultants</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <CardDescription className="text-foreground/80">
+                    Share exclusive training videos only with paying clients
+                  </CardDescription>
+                </CardContent>
+              </Card>
+              
+              <Card className="text-center hover:shadow-md transition-all">
+                <CardHeader>
+                  <Code className="h-10 w-10 text-primary mx-auto mb-2" />
+                  <CardTitle>Tech Educators</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <CardDescription className="text-foreground/80">
+                    Secure coding tutorials and technical instruction materials
+                  </CardDescription>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </section>
+        
+        {/* Why Choose Us */}
+        <section className="py-16 bg-background">
           <div className="container mx-auto px-4">
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold mb-4">Why Choose SecureTeach?</h2>
@@ -169,15 +246,90 @@ const Features = () => {
             </div>
             
             <div className="text-center mt-12">
-              <Button size="lg" asChild>
-                <Link to="/register">Start Your Free Trial</Link>
+              <Button size="lg" asChild className="gap-2">
+                <Link to="/register">
+                  Start Your Free Trial
+                  <ChevronRight className="h-4 w-4" />
+                </Link>
+              </Button>
+            </div>
+          </div>
+        </section>
+        
+        {/* Compare Plans - New */}
+        <section className="py-16 bg-secondary/5">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold mb-4">Compare Security Features</h2>
+              <p className="text-muted-foreground max-w-2xl mx-auto">
+                See how our protection features compare to standard video hosting
+              </p>
+            </div>
+            
+            <div className="max-w-4xl mx-auto overflow-x-auto">
+              <table className="w-full border-collapse">
+                <thead>
+                  <tr>
+                    <th className="text-left p-4 bg-secondary/20 rounded-tl-lg">Features</th>
+                    <th className="p-4 bg-secondary/20">Standard Platforms</th>
+                    <th className="p-4 bg-primary/10 text-primary rounded-tr-lg">SecureTeach</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td className="text-left p-4 border-b border-border">Screenshot Prevention</td>
+                    <td className="p-4 border-b border-border text-center text-red-500">No</td>
+                    <td className="p-4 border-b border-border text-center text-green-500">
+                      <CheckCheck className="h-5 w-5 inline" />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="text-left p-4 border-b border-border">Screen Recording Block</td>
+                    <td className="p-4 border-b border-border text-center text-red-500">No</td>
+                    <td className="p-4 border-b border-border text-center text-green-500">
+                      <CheckCheck className="h-5 w-5 inline" />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="text-left p-4 border-b border-border">Dynamic Watermarking</td>
+                    <td className="p-4 border-b border-border text-center text-red-500">No</td>
+                    <td className="p-4 border-b border-border text-center text-green-500">
+                      <CheckCheck className="h-5 w-5 inline" />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="text-left p-4 border-b border-border">Download Protection</td>
+                    <td className="p-4 border-b border-border text-center text-yellow-500">Limited</td>
+                    <td className="p-4 border-b border-border text-center text-green-500">
+                      <CheckCheck className="h-5 w-5 inline" />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="text-left p-4 border-b border-border">Content Encryption</td>
+                    <td className="p-4 border-b border-border text-center text-yellow-500">Basic</td>
+                    <td className="p-4 border-b border-border text-center text-green-500">
+                      <CheckCheck className="h-5 w-5 inline" />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="text-left p-4">Piracy Detection</td>
+                    <td className="p-4 text-center text-red-500">No</td>
+                    <td className="p-4 text-center text-green-500">
+                      <CheckCheck className="h-5 w-5 inline" />
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            
+            <div className="text-center mt-10">
+              <Button variant="outline" size="lg" asChild>
+                <Link to="/pricing">See Pricing Plans</Link>
               </Button>
             </div>
           </div>
         </section>
       </main>
-      
-      <Footer />
     </div>
   );
 };

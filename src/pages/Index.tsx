@@ -11,10 +11,9 @@ import {
   Fingerprint,
   ArrowRight,
   CheckCircle,
-  FileVideo
+  FileVideo,
+  ChevronRight
 } from 'lucide-react';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
 
 const Index = () => {
   // Refs for animated sections
@@ -52,13 +51,11 @@ const Index = () => {
   
   return (
     <div className="min-h-screen flex flex-col">
-      <Navbar />
-      
       {/* Hero Section */}
       <section className="pt-28 pb-16 md:pt-32 md:pb-24" ref={heroRef}>
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center space-y-6">
-            <div className="inline-flex items-center gap-2 bg-accent/70 text-accent-foreground px-4 py-1.5 rounded-full text-sm font-medium reveal">
+            <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-1.5 rounded-full text-sm font-medium reveal">
               <Shield className="h-4 w-4" />
               <span>Advanced Security for Educators</span>
             </div>
@@ -73,10 +70,10 @@ const Index = () => {
             </p>
             
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4 reveal">
-              <Button size="lg" asChild>
-                <Link to="/register" className="gap-2">
+              <Button size="lg" asChild className="gap-2">
+                <Link to="/register">
                   Get Started
-                  <ArrowRight className="h-4 w-4" />
+                  <ChevronRight className="h-4 w-4" />
                 </Link>
               </Button>
               <Button variant="outline" size="lg" asChild>
@@ -99,7 +96,7 @@ const Index = () => {
       </section>
       
       {/* Features Section */}
-      <section className="py-16 md:py-24 bg-accent/30" ref={featuresRef}>
+      <section className="py-16 md:py-24 bg-accent/10" ref={featuresRef}>
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center space-y-4 mb-16 reveal">
             <h2 className="text-3xl md:text-4xl font-bold">
@@ -112,7 +109,7 @@ const Index = () => {
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 reveal-list">
             {/* Feature 1 */}
-            <div className="glass-card rounded-xl p-6 transition-all hover:shadow-lg">
+            <div className="glass-card rounded-xl p-6 transition-all hover:shadow-lg hover:border-primary/50 border border-border">
               <div className="h-12 w-12 bg-primary/10 text-primary rounded-lg flex items-center justify-center mb-5">
                 <Eye className="h-6 w-6" />
               </div>
@@ -123,7 +120,7 @@ const Index = () => {
             </div>
             
             {/* Feature 2 */}
-            <div className="glass-card rounded-xl p-6 transition-all hover:shadow-lg">
+            <div className="glass-card rounded-xl p-6 transition-all hover:shadow-lg hover:border-primary/50 border border-border">
               <div className="h-12 w-12 bg-primary/10 text-primary rounded-lg flex items-center justify-center mb-5">
                 <Tv2 className="h-6 w-6" />
               </div>
@@ -134,7 +131,7 @@ const Index = () => {
             </div>
             
             {/* Feature 3 */}
-            <div className="glass-card rounded-xl p-6 transition-all hover:shadow-lg">
+            <div className="glass-card rounded-xl p-6 transition-all hover:shadow-lg hover:border-primary/50 border border-border">
               <div className="h-12 w-12 bg-primary/10 text-primary rounded-lg flex items-center justify-center mb-5">
                 <Download className="h-6 w-6" />
               </div>
@@ -145,29 +142,29 @@ const Index = () => {
             </div>
             
             {/* Feature 4 */}
-            <div className="glass-card rounded-xl p-6 transition-all hover:shadow-lg">
+            <div className="glass-card rounded-xl p-6 transition-all hover:shadow-lg hover:border-primary/50 border border-border">
               <div className="h-12 w-12 bg-primary/10 text-primary rounded-lg flex items-center justify-center mb-5">
                 <Lock className="h-6 w-6" />
               </div>
-              <h3 className="text-xl font-semibold mb-3">Block Window Sharing</h3>
+              <h3 className="text-xl font-semibold mb-3">Access Control</h3>
               <p className="text-muted-foreground">
-                Prevent content from being shared through screen sharing applications.
+                Set detailed permissions on who can view your content and for how long.
               </p>
             </div>
             
             {/* Feature 5 */}
-            <div className="glass-card rounded-xl p-6 transition-all hover:shadow-lg">
+            <div className="glass-card rounded-xl p-6 transition-all hover:shadow-lg hover:border-primary/50 border border-border">
               <div className="h-12 w-12 bg-primary/10 text-primary rounded-lg flex items-center justify-center mb-5">
                 <Fingerprint className="h-6 w-6" />
               </div>
               <h3 className="text-xl font-semibold mb-3">Dynamic Watermarking</h3>
               <p className="text-muted-foreground">
-                Add unique watermarks with student information to discourage unauthorized sharing.
+                Add unique watermarks with viewer information to discourage unauthorized sharing.
               </p>
             </div>
             
             {/* Feature 6 */}
-            <div className="glass-card rounded-xl p-6 transition-all hover:shadow-lg">
+            <div className="glass-card rounded-xl p-6 transition-all hover:shadow-lg hover:border-primary/50 border border-border">
               <div className="h-12 w-12 bg-primary/10 text-primary rounded-lg flex items-center justify-center mb-5">
                 <Shield className="h-6 w-6" />
               </div>
@@ -176,6 +173,15 @@ const Index = () => {
                 Simple embed codes that work seamlessly with your existing website or platform.
               </p>
             </div>
+          </div>
+          
+          <div className="text-center mt-12 reveal">
+            <Button asChild variant="outline" size="lg" className="gap-2">
+              <Link to="/features">
+                Explore All Features
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </Button>
           </div>
         </div>
       </section>
@@ -240,8 +246,8 @@ const Index = () => {
         </div>
       </section>
       
-      {/* Testimonials (placeholder) */}
-      <section className="py-16 md:py-24 bg-accent/30">
+      {/* Testimonials */}
+      <section className="py-16 md:py-24 bg-accent/10">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center space-y-4 mb-16 reveal">
             <h2 className="text-3xl md:text-4xl font-bold">
@@ -254,7 +260,7 @@ const Index = () => {
           
           <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto reveal-list">
             {/* Testimonial 1 */}
-            <div className="glass-card rounded-xl p-6">
+            <div className="glass-card rounded-xl p-6 border border-border hover:border-primary/30 hover:shadow-md transition-all">
               <div className="flex flex-col h-full">
                 <div className="mb-4">
                   <div className="flex text-primary">
@@ -281,7 +287,7 @@ const Index = () => {
             </div>
             
             {/* Testimonial 2 */}
-            <div className="glass-card rounded-xl p-6">
+            <div className="glass-card rounded-xl p-6 border border-border hover:border-primary/30 hover:shadow-md transition-all">
               <div className="flex flex-col h-full">
                 <div className="mb-4">
                   <div className="flex text-primary">
@@ -313,7 +319,7 @@ const Index = () => {
       {/* CTA Section */}
       <section className="py-16 md:py-24" ref={ctaRef}>
         <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center glass-card rounded-xl p-8 md:p-12 reveal">
+          <div className="max-w-4xl mx-auto text-center glass-card rounded-xl p-8 md:p-12 reveal border border-border">
             <h2 className="text-3xl md:text-4xl font-bold mb-6">
               Ready to Secure Your Educational Content?
             </h2>
@@ -323,8 +329,11 @@ const Index = () => {
             </p>
             
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Button size="lg" asChild>
-                <Link to="/register">Create Your Account</Link>
+              <Button size="lg" asChild className="gap-2">
+                <Link to="/register">
+                  Create Your Account
+                  <ChevronRight className="h-4 w-4" />
+                </Link>
               </Button>
               <Button variant="outline" size="lg" asChild>
                 <Link to="/login">
@@ -351,8 +360,6 @@ const Index = () => {
           </div>
         </div>
       </section>
-      
-      <Footer />
     </div>
   );
 };

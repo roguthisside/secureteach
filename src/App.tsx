@@ -6,6 +6,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { authService } from "@/utils/auth";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 // Pages
 import Index from "./pages/Index";
@@ -46,78 +48,110 @@ const App = () => {
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          <Routes>
-            {/* Non-authenticated routes */}
-            <Route 
-              path="/" 
-              element={
-                isAuthenticated ? (
-                  <Navigate to="/dashboard" replace />
-                ) : (
-                  <Index />
-                )
-              } 
-            />
-            <Route 
-              path="/login" 
-              element={
-                isAuthenticated ? (
-                  <Navigate to="/dashboard" replace />
-                ) : (
-                  <Login />
-                )
-              } 
-            />
-            <Route 
-              path="/register" 
-              element={
-                isAuthenticated ? (
-                  <Navigate to="/dashboard" replace />
-                ) : (
-                  <Register />
-                )
-              } 
-            />
-            
-            {/* Public routes - accessible to all users */}
-            <Route path="/features" element={<Features />} />
-            <Route path="/pricing" element={<Pricing />} />
-            
-            {/* Protected routes */}
-            <Route path="/dashboard" element={
-              <PrivateRoute>
-                <Dashboard />
-              </PrivateRoute>
-            } />
-            <Route path="/upload" element={
-              <PrivateRoute>
-                <Upload />
-              </PrivateRoute>
-            } />
-            <Route path="/configure/:videoId" element={
-              <PrivateRoute>
-                <Configure />
-              </PrivateRoute>
-            } />
-            <Route path="/library" element={
-              <PrivateRoute>
-                <ContentLibrary />
-              </PrivateRoute>
-            } />
-            <Route path="/settings" element={
-              <PrivateRoute>
-                <Settings />
-              </PrivateRoute>
-            } />
-            <Route path="/profile" element={
-              <PrivateRoute>
-                <Profile />
-              </PrivateRoute>
-            } />
-            
-            {/* 404 route */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+          <div className="flex flex-col min-h-screen">
+            <Navbar />
+            <main className="flex-1">
+              <Routes>
+                {/* Non-authenticated routes */}
+                <Route 
+                  path="/" 
+                  element={
+                    isAuthenticated ? (
+                      <Navigate to="/dashboard" replace />
+                    ) : (
+                      <>
+                        <Index />
+                        <Footer />
+                      </>
+                    )
+                  } 
+                />
+                <Route 
+                  path="/login" 
+                  element={
+                    isAuthenticated ? (
+                      <Navigate to="/dashboard" replace />
+                    ) : (
+                      <>
+                        <Login />
+                        <Footer />
+                      </>
+                    )
+                  } 
+                />
+                <Route 
+                  path="/register" 
+                  element={
+                    isAuthenticated ? (
+                      <Navigate to="/dashboard" replace />
+                    ) : (
+                      <>
+                        <Register />
+                        <Footer />
+                      </>
+                    )
+                  } 
+                />
+                
+                {/* Public routes - accessible to all users */}
+                <Route path="/features" element={
+                  isAuthenticated ? (
+                    <Navigate to="/dashboard" replace />
+                  ) : (
+                    <>
+                      <Features />
+                      <Footer />
+                    </>
+                  )
+                } />
+                <Route path="/pricing" element={
+                  isAuthenticated ? (
+                    <Navigate to="/dashboard" replace />
+                  ) : (
+                    <>
+                      <Pricing />
+                      <Footer />
+                    </>
+                  )
+                } />
+                
+                {/* Protected routes */}
+                <Route path="/dashboard" element={
+                  <PrivateRoute>
+                    <Dashboard />
+                  </PrivateRoute>
+                } />
+                <Route path="/upload" element={
+                  <PrivateRoute>
+                    <Upload />
+                  </PrivateRoute>
+                } />
+                <Route path="/configure/:videoId" element={
+                  <PrivateRoute>
+                    <Configure />
+                  </PrivateRoute>
+                } />
+                <Route path="/library" element={
+                  <PrivateRoute>
+                    <ContentLibrary />
+                  </PrivateRoute>
+                } />
+                <Route path="/settings" element={
+                  <PrivateRoute>
+                    <Settings />
+                  </PrivateRoute>
+                } />
+                <Route path="/profile" element={
+                  <PrivateRoute>
+                    <Profile />
+                  </PrivateRoute>
+                } />
+                
+                {/* 404 route */}
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </main>
+          </div>
         </BrowserRouter>
       </TooltipProvider>
     </QueryClientProvider>
