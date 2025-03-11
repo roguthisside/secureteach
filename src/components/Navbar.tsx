@@ -26,7 +26,16 @@ const Navbar = () => {
   
   // Check authentication status
   useEffect(() => {
-    setIsAuthenticated(authService.isAuthenticated());
+    const checkAuth = () => {
+      setIsAuthenticated(authService.isAuthenticated());
+    };
+    
+    checkAuth();
+    window.addEventListener('storage', checkAuth);
+    
+    return () => {
+      window.removeEventListener('storage', checkAuth);
+    };
   }, [location]);
   
   // Handle scroll effect
@@ -48,7 +57,9 @@ const Navbar = () => {
     authService.logout();
     setIsAuthenticated(false);
     toast.success('Logged out successfully');
-    navigate('/');
+    // Force refresh to ensure all auth states are updated
+    window.dispatchEvent(new Event('storage'));
+    navigate('/', { replace: true });
   };
   
   // Toggle mobile menu
@@ -64,7 +75,7 @@ const Navbar = () => {
         <div className="flex justify-between items-center">
           {/* Logo */}
           <Link 
-            to="/" 
+            to={isAuthenticated ? "/dashboard" : "/"} 
             className="flex items-center gap-2 text-primary font-bold text-xl"
           >
             <Shield className="h-6 w-6" />
@@ -73,14 +84,16 @@ const Navbar = () => {
           
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-6">
-            <Link 
-              to="/" 
-              className={`text-sm font-medium transition-colors hover:text-primary ${
-                location.pathname === '/' ? 'text-primary' : 'text-foreground/80'
-              }`}
-            >
-              Home
-            </Link>
+            {!isAuthenticated && (
+              <Link 
+                to="/" 
+                className={`text-sm font-medium transition-colors hover:text-primary ${
+                  location.pathname === '/' ? 'text-primary' : 'text-foreground/80'
+                }`}
+              >
+                Home
+              </Link>
+            )}
             
             {isAuthenticated ? (
               <>
@@ -163,14 +176,16 @@ const Navbar = () => {
       {isMenuOpen && (
         <div className="md:hidden glass-effect border-t border-border animate-fade-in">
           <div className="container mx-auto px-4 py-4 flex flex-col gap-4">
-            <Link 
-              to="/" 
-              className="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-accent"
-              onClick={toggleMenu}
-            >
-              <Home className="h-5 w-5" />
-              Home
-            </Link>
+            {!isAuthenticated && (
+              <Link 
+                to="/" 
+                className="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-accent"
+                onClick={toggleMenu}
+              >
+                <Home className="h-5 w-5" />
+                Home
+              </Link>
+            )}
             
             {isAuthenticated ? (
               <>
