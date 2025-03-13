@@ -110,24 +110,16 @@ const App = () => {
                 
                 {/* Public routes - accessible to all users */}
                 <Route path="/features" element={
-                  isAuthenticated ? (
-                    <Navigate to="/dashboard" replace />
-                  ) : (
-                    <>
-                      <Features />
-                      <Footer />
-                    </>
-                  )
+                  <>
+                    <Features />
+                    <Footer />
+                  </>
                 } />
                 <Route path="/pricing" element={
-                  isAuthenticated ? (
-                    <Navigate to="/dashboard" replace />
-                  ) : (
-                    <>
-                      <Pricing />
-                      <Footer />
-                    </>
-                  )
+                  <>
+                    <Pricing />
+                    <Footer />
+                  </>
                 } />
                 
                 {/* Protected routes - no footer */}
