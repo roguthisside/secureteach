@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -6,7 +5,6 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Upload, Clock, BarChart2, Shield, Video, ArrowUpRight } from 'lucide-react';
 import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
 import { authService } from '@/utils/auth';
 import { contentService, type VideoContent } from '@/utils/security';
 
@@ -394,8 +392,6 @@ const Dashboard = () => {
           </div>
         </div>
       </main>
-      
-      <Footer />
     </div>
   );
 };
