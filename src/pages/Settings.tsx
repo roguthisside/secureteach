@@ -1,7 +1,5 @@
-
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Navbar from '@/components/Navbar';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -11,6 +9,7 @@ import { Switch } from '@/components/ui/switch';
 import { toast } from 'sonner';
 import { User, Lock, Bell, Shield, LogOut } from 'lucide-react';
 import { authService } from '@/utils/auth';
+import PageHeader from '@/components/PageHeader';
 
 const Settings = () => {
   const navigate = useNavigate();
@@ -92,13 +91,11 @@ const Settings = () => {
   };
   
   return (
-    <div className="min-h-screen bg-background pb-10">
-      <Navbar />
-      
-      <main className="container mx-auto px-4 py-20">
+    <div className="min-h-screen bg-background">
+      <main className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
           <div className="flex items-center justify-between mb-8">
-            <h1 className="text-3xl font-bold">Account Settings</h1>
+            <PageHeader title="Account Settings" />
             <Button 
               variant="ghost" 
               className="text-destructive hover:text-destructive/90 hover:bg-destructive/10 flex items-center gap-2"
