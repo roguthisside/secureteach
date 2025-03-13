@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { authService } from "@/utils/auth";
 import Navbar from "@/components/Navbar";
@@ -25,6 +25,17 @@ import Settings from "./pages/Settings";
 import Profile from "./pages/Profile";
 
 const queryClient = new QueryClient();
+
+// Scroll restoration component
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+  
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  
+  return null;
+};
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -51,6 +62,7 @@ const App = () => {
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <ScrollToTop />
           <div className="flex flex-col min-h-screen">
             <Navbar />
             <main className="flex-1">
