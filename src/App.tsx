@@ -42,6 +42,9 @@ const App = () => {
     };
   }, []);
 
+  // These routes should have the footer
+  const publicRoutes = ['/', '/login', '/register', '/features', '/pricing'];
+
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>

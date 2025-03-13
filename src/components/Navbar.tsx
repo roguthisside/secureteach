@@ -68,6 +68,13 @@ const Navbar = () => {
   // Toggle mobile menu
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   
+  // Close mobile menu when clicking a link
+  const handleLinkClick = () => {
+    if (isMenuOpen) {
+      setIsMenuOpen(false);
+    }
+  };
+  
   return (
     <header 
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
@@ -80,6 +87,7 @@ const Navbar = () => {
           <Link 
             to={isAuthenticated ? "/dashboard" : "/"} 
             className="flex items-center gap-2 text-primary font-bold text-xl"
+            onClick={handleLinkClick}
           >
             <Shield className="h-6 w-6" />
             <span className="hidden sm:inline">SecureTeach</span>
@@ -116,7 +124,7 @@ const Navbar = () => {
               </>
             )}
             
-            {isAuthenticated ? (
+            {isAuthenticated && (
               <>
                 <Link 
                   to="/dashboard" 
@@ -140,7 +148,7 @@ const Navbar = () => {
                     location.pathname === '/library' ? 'text-primary' : 'text-foreground/80'
                   }`}
                 >
-                  Content Library
+                  Library
                 </Link>
                 <Link 
                   to="/profile" 
@@ -151,7 +159,7 @@ const Navbar = () => {
                   Profile
                 </Link>
               </>
-            ) : null}
+            )}
           </nav>
           
           {/* Auth buttons */}
@@ -210,7 +218,7 @@ const Navbar = () => {
                 <Link 
                   to="/" 
                   className="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-accent"
-                  onClick={toggleMenu}
+                  onClick={handleLinkClick}
                 >
                   <Home className="h-5 w-5" />
                   Home
@@ -218,7 +226,7 @@ const Navbar = () => {
                 <Link 
                   to="/features" 
                   className="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-accent"
-                  onClick={toggleMenu}
+                  onClick={handleLinkClick}
                 >
                   <Layers className="h-5 w-5" />
                   Features
@@ -226,7 +234,7 @@ const Navbar = () => {
                 <Link 
                   to="/pricing" 
                   className="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-accent"
-                  onClick={toggleMenu}
+                  onClick={handleLinkClick}
                 >
                   <DollarSign className="h-5 w-5" />
                   Pricing
@@ -234,12 +242,12 @@ const Navbar = () => {
               </>
             )}
             
-            {isAuthenticated ? (
+            {isAuthenticated && (
               <>
                 <Link 
                   to="/dashboard" 
                   className="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-accent"
-                  onClick={toggleMenu}
+                  onClick={handleLinkClick}
                 >
                   <Home className="h-5 w-5" />
                   Dashboard
@@ -247,7 +255,7 @@ const Navbar = () => {
                 <Link 
                   to="/upload" 
                   className="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-accent"
-                  onClick={toggleMenu}
+                  onClick={handleLinkClick}
                 >
                   <Upload className="h-5 w-5" />
                   Upload
@@ -255,15 +263,15 @@ const Navbar = () => {
                 <Link 
                   to="/library" 
                   className="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-accent"
-                  onClick={toggleMenu}
+                  onClick={handleLinkClick}
                 >
                   <Library className="h-5 w-5" />
-                  Content Library
+                  Library
                 </Link>
                 <Link 
                   to="/profile" 
                   className="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-accent"
-                  onClick={toggleMenu}
+                  onClick={handleLinkClick}
                 >
                   <User className="h-5 w-5" />
                   Profile
@@ -271,7 +279,7 @@ const Navbar = () => {
                 <Link 
                   to="/settings" 
                   className="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-accent"
-                  onClick={toggleMenu}
+                  onClick={handleLinkClick}
                 >
                   <Settings className="h-5 w-5" />
                   Settings
@@ -281,29 +289,12 @@ const Navbar = () => {
                   className="w-full justify-start"
                   onClick={() => {
                     handleLogout();
-                    toggleMenu();
+                    handleLinkClick();
                   }}
                 >
                   <LogOut className="h-5 w-5 mr-2" />
                   Logout
                 </Button>
-              </>
-            ) : (
-              <>
-                <Link 
-                  to="/login" 
-                  className="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-accent"
-                  onClick={toggleMenu}
-                >
-                  <LogIn className="h-5 w-5" />
-                  Login
-                </Link>
-                <Link 
-                  to="/register" 
-                  onClick={toggleMenu}
-                >
-                  <Button className="w-full">Register</Button>
-                </Link>
               </>
             )}
           </div>
