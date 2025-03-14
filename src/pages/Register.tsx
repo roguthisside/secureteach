@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Shield, UserPlus, ArrowLeft } from 'lucide-react';
+import { Shield, UserPlus } from 'lucide-react';
 import { authService, type RegisterCredentials } from '@/utils/auth';
 import { toast } from 'sonner';
 
@@ -54,18 +54,6 @@ const Register = () => {
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-12">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            className="mb-6" 
-            asChild
-          >
-            <Link to="/" className="flex items-center gap-2 text-muted-foreground">
-              <ArrowLeft className="h-4 w-4" />
-              Back to Home
-            </Link>
-          </Button>
-          
           <div className="flex justify-center mb-4">
             <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
               <Shield className="h-6 w-6 text-primary" />

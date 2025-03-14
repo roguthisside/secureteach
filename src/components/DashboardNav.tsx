@@ -1,7 +1,7 @@
 
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { User, Upload, Settings } from 'lucide-react';
+import { User, Upload } from 'lucide-react';
 
 const DashboardNav = () => {
   return (
@@ -15,12 +15,6 @@ const DashboardNav = () => {
           <Link to="/profile" className="flex items-center gap-2">
             <User className="h-4 w-4" />
             <span className="hidden sm:inline">Profile</span>
-          </Link>
-        </Button>
-        <Button size="sm" variant="outline" asChild>
-          <Link to="/settings" className="flex items-center gap-2">
-            <Settings className="h-4 w-4" />
-            <span className="hidden sm:inline">Settings</span>
           </Link>
         </Button>
         <Button size="sm" asChild>
