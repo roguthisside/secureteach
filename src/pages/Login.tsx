@@ -16,13 +16,8 @@ const Login = () => {
   });
   
   const navigate = useNavigate();
-  
-  // Check if already logged in and redirect if necessary
-  useEffect(() => {
-    if (authService.isAuthenticated()) {
-      navigate('/dashboard', { replace: true });
-    }
-  }, [navigate]);
+  const location = useLocation();
+  const from = location.state?.from || '/dashboard';
   
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -42,8 +37,8 @@ const Login = () => {
     try {
       await authService.login(credentials);
       toast.success('Login successful');
-      // Force navigation to dashboard after successful login
-      navigate('/dashboard', { replace: true });
+      // Navigate to the page the user was trying to access, or dashboard by default
+      navigate(from, { replace: true });
     } catch (error) {
       toast.error('Invalid email or password');
       console.error('Login error:', error);
@@ -53,7 +48,7 @@ const Login = () => {
   };
   
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-accent/30 px-4">
+    <div className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-12">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <Button 

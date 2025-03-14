@@ -81,32 +81,8 @@ const App = () => {
                     )
                   } 
                 />
-                <Route 
-                  path="/login" 
-                  element={
-                    isAuthenticated ? (
-                      <Navigate to="/dashboard" replace />
-                    ) : (
-                      <>
-                        <Login />
-                        <Footer />
-                      </>
-                    )
-                  } 
-                />
-                <Route 
-                  path="/register" 
-                  element={
-                    isAuthenticated ? (
-                      <Navigate to="/dashboard" replace />
-                    ) : (
-                      <>
-                        <Register />
-                        <Footer />
-                      </>
-                    )
-                  } 
-                />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
                 
                 {/* Public routes - accessible to all users */}
                 <Route path="/features" element={

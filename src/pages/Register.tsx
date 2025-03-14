@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -17,13 +17,6 @@ const Register = () => {
   });
   
   const navigate = useNavigate();
-  
-  // Check if already logged in and redirect if necessary
-  useEffect(() => {
-    if (authService.isAuthenticated()) {
-      navigate('/dashboard', { replace: true });
-    }
-  }, [navigate]);
   
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -47,7 +40,7 @@ const Register = () => {
     
     try {
       await authService.register(credentials);
-      toast.success('Registration successful');
+      toast.success('Registration successful! Redirecting to dashboard...');
       navigate('/dashboard', { replace: true });
     } catch (error) {
       toast.error('Registration failed');
@@ -58,7 +51,7 @@ const Register = () => {
   };
   
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-accent/30 px-4">
+    <div className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-12">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <Button 
