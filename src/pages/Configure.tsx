@@ -20,6 +20,7 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { toast } from 'sonner';
+import { generateEmbedCode, contentService } from '@/utils/security';
 
 const Configure = () => {
   const { videoId } = useParams();
@@ -64,24 +65,35 @@ const Configure = () => {
   useEffect(() => {
     if (!video) return;
     
-    const securityParams = Object.entries(securityOptions)
-      .map(([key, value]) => `${key}=${value}`)
-      .join('&');
-      
-    const watermarkParams = securityOptions.enableWatermarking 
-      ? '&' + Object.entries(watermarkOptions)
-          .map(([key, value]) => `${key}=${value}`)
-          .join('&')
-      : '';
-    
-    const code = `<iframe 
-  src="https://secureteach.io/embed/${videoId}?${securityParams}${watermarkParams}" 
-  width="100%" 
-  height="450" 
-  frameborder="0" 
-  allow="encrypted-media" 
-  allowfullscreen>
-</iframe>`;
+    // Convert to format expected by the generateEmbedCode function
+    const formattedSecurityOptions = {
+      preventScreenRecording: securityOptions.preventRecording,
+      preventScreenshots: securityOptions.preventScreenshots,
+      preventDownloading: securityOptions.preventDownloads,
+      preventWindowSharing: securityOptions.preventWindowSharing,
+      enableWatermarking: securityOptions.enableWatermarking
+    };
+
+    const formattedWatermarkOptions = {
+      enabled: securityOptions.enableWatermarking,
+      includeName: watermarkOptions.includeStudentName,
+      includeEmail: watermarkOptions.includeStudentEmail,
+      includeId: false,
+      includeTimestamp: watermarkOptions.includeTimestamp,
+      includeCustomText: false,
+      customText: '',
+      opacity: watermarkOptions.opacity,
+      position: watermarkOptions.position as any,
+      isMoving: watermarkOptions.isMoving,
+      movementSpeed: watermarkOptions.movementSpeed as any
+    };
+
+    // Use the actual generateEmbedCode utility
+    const code = generateEmbedCode(
+      videoId || '',
+      formattedSecurityOptions,
+      formattedWatermarkOptions
+    );
     
     setEmbedCode(code);
   }, [video, securityOptions, watermarkOptions, videoId]);
@@ -129,7 +141,7 @@ const Configure = () => {
 
   if (loading) {
     return (
-      <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto px-4 py-20 mt-16">
         <div className="flex justify-center items-center h-64">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
         </div>
@@ -138,12 +150,13 @@ const Configure = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-20 mt-8">
+      <h1 className="text-3xl font-bold mb-8">Configure Video Security</h1>
       <div className="flex flex-col md:flex-row gap-8">
         {/* Video Preview Column */}
         <div className="w-full md:w-1/3 space-y-6">
-          <Card>
-            <CardHeader>
+          <Card className="sticky top-24">
+            <CardHeader className="pb-2">
               <CardTitle>Video Preview</CardTitle>
               <CardDescription>Configure security for this video</CardDescription>
             </CardHeader>
@@ -171,12 +184,21 @@ const Configure = () => {
                 </div>
               </div>
             </CardContent>
+            <CardFooter>
+              <Button 
+                variant="outline" 
+                className="w-full" 
+                onClick={() => navigate('/library')}
+              >
+                Back to Library
+              </Button>
+            </CardFooter>
           </Card>
         </div>
 
         {/* Configuration Column */}
         <div className="w-full md:w-2/3">
-          <Tabs defaultValue="security">
+          <Tabs defaultValue="security" className="space-y-6">
             <TabsList className="grid w-full grid-cols-2 mb-6">
               <TabsTrigger value="security">Security Options</TabsTrigger>
               <TabsTrigger value="embed">Embed Code</TabsTrigger>
@@ -414,7 +436,7 @@ const Configure = () => {
                 <CardContent>
                   <div className="p-4 bg-muted rounded-md overflow-x-auto">
                     <pre className="text-sm whitespace-pre-wrap break-all">
-                      {embedCode}
+                      {embedCode || "No embed code generated. Please check your security settings."}
                     </pre>
                   </div>
                 </CardContent>
@@ -422,7 +444,11 @@ const Configure = () => {
                   <Button variant="outline" onClick={() => navigate('/library')}>
                     Back to Library
                   </Button>
-                  <Button onClick={copyEmbedCode} className="gap-2">
+                  <Button 
+                    onClick={copyEmbedCode} 
+                    className="gap-2"
+                    disabled={!embedCode}
+                  >
                     <Copy className="h-4 w-4" />
                     Copy Embed Code
                   </Button>

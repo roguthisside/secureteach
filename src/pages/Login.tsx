@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -37,8 +37,8 @@ const Login = () => {
     try {
       await authService.login(credentials);
       toast.success('Login successful');
-      // Navigate to the page the user was trying to access, or dashboard by default
-      navigate(from, { replace: true });
+      // Navigate to the dashboard by default
+      navigate('/dashboard', { replace: true });
     } catch (error) {
       toast.error('Invalid email or password');
       console.error('Login error:', error);
@@ -48,7 +48,7 @@ const Login = () => {
   };
   
   return (
-    <div className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-12">
+    <div className="flex flex-col items-center justify-center min-h-screen px-4 py-12 mt-16">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <Button 
