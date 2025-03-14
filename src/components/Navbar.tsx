@@ -13,7 +13,6 @@ import {
   Library,
   User,
   Upload,
-  Settings,
   DollarSign,
   Layers
 } from 'lucide-react';
@@ -151,14 +150,6 @@ const Navbar = () => {
                   Library
                 </Link>
                 <Link 
-                  to="/settings" 
-                  className={`text-sm font-medium transition-colors hover:text-primary ${
-                    location.pathname === '/settings' ? 'text-primary' : 'text-foreground/80'
-                  }`}
-                >
-                  Settings
-                </Link>
-                <Link 
                   to="/profile" 
                   className={`text-sm font-medium transition-colors hover:text-primary ${
                     location.pathname === '/profile' ? 'text-primary' : 'text-foreground/80'
@@ -275,14 +266,6 @@ const Navbar = () => {
                 >
                   <Library className="h-5 w-5" />
                   Library
-                </Link>
-                <Link 
-                  to="/settings" 
-                  className="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-accent"
-                  onClick={handleLinkClick}
-                >
-                  <Settings className="h-5 w-5" />
-                  Settings
                 </Link>
                 <Link 
                   to="/profile" 
