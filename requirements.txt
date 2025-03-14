@@ -1,0 +1,11 @@
+
+# SecureTeach Platform Requirements
+# Node.js v16.x or higher required
+
+# NPM Packages (installed via package.json)
+# - React v18.x
+# - React Router DOM v6.x
+# - Tailwind CSS
+# - shadcn/ui components
+# - TypeScript
+# - Vite
