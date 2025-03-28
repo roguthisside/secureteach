@@ -14,7 +14,10 @@ import {
   User,
   Upload,
   DollarSign,
-  Layers
+  Layers,
+  GraduationCap,
+  BookOpen,
+  Users
 } from 'lucide-react';
 import { authService } from '@/utils/auth';
 import { toast } from 'sonner';
@@ -23,6 +26,7 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isTeacher, setIsTeacher] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   
@@ -30,6 +34,7 @@ const Navbar = () => {
   useEffect(() => {
     const checkAuth = () => {
       setIsAuthenticated(authService.isAuthenticated());
+      setIsTeacher(authService.isTeacher());
     };
     
     checkAuth();
@@ -58,6 +63,7 @@ const Navbar = () => {
   const handleLogout = () => {
     authService.logout();
     setIsAuthenticated(false);
+    setIsTeacher(false);
     toast.success('Logged out successfully');
     // Force refresh to ensure all auth states are updated
     window.dispatchEvent(new Event('storage'));
@@ -120,10 +126,18 @@ const Navbar = () => {
                 >
                   Pricing
                 </Link>
+                <Link 
+                  to="/courses" 
+                  className={`text-sm font-medium transition-colors hover:text-primary ${
+                    location.pathname === '/courses' ? 'text-primary' : 'text-foreground/80'
+                  }`}
+                >
+                  Courses
+                </Link>
               </>
             )}
             
-            {isAuthenticated && (
+            {isAuthenticated && isTeacher && (
               <>
                 <Link 
                   to="/dashboard" 
@@ -134,12 +148,20 @@ const Navbar = () => {
                   Dashboard
                 </Link>
                 <Link 
-                  to="/upload" 
+                  to="/courses/create" 
                   className={`text-sm font-medium transition-colors hover:text-primary ${
-                    location.pathname === '/upload' ? 'text-primary' : 'text-foreground/80'
+                    location.pathname === '/courses/create' ? 'text-primary' : 'text-foreground/80'
                   }`}
                 >
-                  Upload
+                  Create Course
+                </Link>
+                <Link 
+                  to="/my-courses" 
+                  className={`text-sm font-medium transition-colors hover:text-primary ${
+                    location.pathname === '/my-courses' ? 'text-primary' : 'text-foreground/80'
+                  }`}
+                >
+                  My Courses
                 </Link>
                 <Link 
                   to="/library" 
@@ -147,7 +169,44 @@ const Navbar = () => {
                     location.pathname === '/library' ? 'text-primary' : 'text-foreground/80'
                   }`}
                 >
-                  Library
+                  Video Library
+                </Link>
+                <Link 
+                  to="/profile" 
+                  className={`text-sm font-medium transition-colors hover:text-primary ${
+                    location.pathname === '/profile' ? 'text-primary' : 'text-foreground/80'
+                  }`}
+                >
+                  Profile
+                </Link>
+              </>
+            )}
+            
+            {isAuthenticated && !isTeacher && (
+              <>
+                <Link 
+                  to="/dashboard" 
+                  className={`text-sm font-medium transition-colors hover:text-primary ${
+                    location.pathname === '/dashboard' ? 'text-primary' : 'text-foreground/80'
+                  }`}
+                >
+                  Dashboard
+                </Link>
+                <Link 
+                  to="/courses" 
+                  className={`text-sm font-medium transition-colors hover:text-primary ${
+                    location.pathname === '/courses' ? 'text-primary' : 'text-foreground/80'
+                  }`}
+                >
+                  Explore Courses
+                </Link>
+                <Link 
+                  to="/my-learning" 
+                  className={`text-sm font-medium transition-colors hover:text-primary ${
+                    location.pathname === '/my-learning' ? 'text-primary' : 'text-foreground/80'
+                  }`}
+                >
+                  My Learning
                 </Link>
                 <Link 
                   to="/profile" 
@@ -238,10 +297,18 @@ const Navbar = () => {
                   <DollarSign className="h-5 w-5" />
                   Pricing
                 </Link>
+                <Link 
+                  to="/courses" 
+                  className="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-accent"
+                  onClick={handleLinkClick}
+                >
+                  <BookOpen className="h-5 w-5" />
+                  Courses
+                </Link>
               </>
             )}
             
-            {isAuthenticated && (
+            {isAuthenticated && isTeacher && (
               <>
                 <Link 
                   to="/dashboard" 
@@ -252,12 +319,20 @@ const Navbar = () => {
                   Dashboard
                 </Link>
                 <Link 
-                  to="/upload" 
+                  to="/courses/create" 
                   className="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-accent"
                   onClick={handleLinkClick}
                 >
                   <Upload className="h-5 w-5" />
-                  Upload
+                  Create Course
+                </Link>
+                <Link 
+                  to="/my-courses" 
+                  className="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-accent"
+                  onClick={handleLinkClick}
+                >
+                  <BookOpen className="h-5 w-5" />
+                  My Courses
                 </Link>
                 <Link 
                   to="/library" 
@@ -265,7 +340,55 @@ const Navbar = () => {
                   onClick={handleLinkClick}
                 >
                   <Library className="h-5 w-5" />
-                  Library
+                  Video Library
+                </Link>
+                <Link 
+                  to="/profile" 
+                  className="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-accent"
+                  onClick={handleLinkClick}
+                >
+                  <User className="h-5 w-5" />
+                  Profile
+                </Link>
+                <Button 
+                  variant="ghost" 
+                  className="w-full justify-start"
+                  onClick={() => {
+                    handleLogout();
+                    handleLinkClick();
+                  }}
+                >
+                  <LogOut className="h-5 w-5 mr-2" />
+                  Logout
+                </Button>
+              </>
+            )}
+            
+            {isAuthenticated && !isTeacher && (
+              <>
+                <Link 
+                  to="/dashboard" 
+                  className="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-accent"
+                  onClick={handleLinkClick}
+                >
+                  <Home className="h-5 w-5" />
+                  Dashboard
+                </Link>
+                <Link 
+                  to="/courses" 
+                  className="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-accent"
+                  onClick={handleLinkClick}
+                >
+                  <BookOpen className="h-5 w-5" />
+                  Explore Courses
+                </Link>
+                <Link 
+                  to="/my-learning" 
+                  className="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-accent"
+                  onClick={handleLinkClick}
+                >
+                  <GraduationCap className="h-5 w-5" />
+                  My Learning
                 </Link>
                 <Link 
                   to="/profile" 

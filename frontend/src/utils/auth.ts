@@ -2,21 +2,28 @@
 // Mock authentication for demo purposes
 // In a real application, this would connect to a backend service
 
-interface User {
+export type UserRole = 'student' | 'teacher' | 'admin';
+
+export interface User {
   id: string;
   name: string;
   email: string;
+  role: UserRole;
+  bio?: string;
+  avatarUrl?: string;
+  joinDate: string;
 }
 
-interface LoginCredentials {
+export interface LoginCredentials {
   email: string;
   password: string;
 }
 
-interface RegisterCredentials {
+export interface RegisterCredentials {
   name: string;
   email: string;
   password: string;
+  role: UserRole;
 }
 
 class AuthService {
@@ -25,6 +32,21 @@ class AuthService {
   isAuthenticated(): boolean {
     const user = this.getUser();
     return !!user;
+  }
+  
+  isTeacher(): boolean {
+    const user = this.getUser();
+    return !!user && (user.role === 'teacher' || user.role === 'admin');
+  }
+  
+  isStudent(): boolean {
+    const user = this.getUser();
+    return !!user && (user.role === 'student' || user.role === 'admin');
+  }
+  
+  isAdmin(): boolean {
+    const user = this.getUser();
+    return !!user && user.role === 'admin';
   }
   
   getUser(): User | null {
@@ -50,6 +72,8 @@ class AuthService {
         id: crypto.randomUUID(),
         name: credentials.email.split('@')[0],
         email: credentials.email,
+        role: credentials.email.includes('teacher') ? 'teacher' : 'student',
+        joinDate: new Date().toISOString(),
       };
       
       localStorage.setItem(this.storageKey, JSON.stringify(user));
@@ -70,6 +94,8 @@ class AuthService {
         id: crypto.randomUUID(),
         name: credentials.name,
         email: credentials.email,
+        role: credentials.role || 'student',
+        joinDate: new Date().toISOString(),
       };
       
       localStorage.setItem(this.storageKey, JSON.stringify(user));
@@ -79,10 +105,24 @@ class AuthService {
     throw new Error('Invalid registration data');
   }
   
+  updateUser(userData: Partial<User>): User {
+    const currentUser = this.getUser();
+    if (!currentUser) {
+      throw new Error('No authenticated user');
+    }
+    
+    const updatedUser: User = {
+      ...currentUser,
+      ...userData,
+    };
+    
+    localStorage.setItem(this.storageKey, JSON.stringify(updatedUser));
+    return updatedUser;
+  }
+  
   logout(): void {
     localStorage.removeItem(this.storageKey);
   }
 }
 
 export const authService = new AuthService();
-export type { User, LoginCredentials, RegisterCredentials };

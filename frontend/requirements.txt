@@ -9,3 +9,38 @@
 # - shadcn/ui components
 # - TypeScript
 # - Vite
+
+# Core Functionality
+- User authentication with different roles (student/teacher/admin)
+- Course creation and management for teachers
+- Video content management with security features
+- Course enrollment for students
+- Learning progress tracking
+- Live session capabilities
+
+# Content Security Features
+- DRM and copyright protection for course content
+- Watermarking capabilities with customization options
+- Anti-screen recording measures
+- Screenshot prevention
+- Download protection
+- Window sharing restrictions
+
+# User Experience
+- Responsive design for all devices
+- Intuitive course navigation
+- Secure video player with progress tracking
+- Interactive dashboards for students and teachers
+- Detailed course creation interface
+
+# Development & Setup Instructions
+1. Clone the repository
+2. Run 'npm install' to install dependencies
+3. Run 'npm run dev' to start the development server
+4. Access the application at http://localhost:5173 (or the port shown in terminal)
+
+# System Features
+- Mock authentication service for demo purposes
+- Mock course and enrollment services
+- Secure video player integration
+- Content protection utilities

@@ -20,7 +20,7 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { toast } from 'sonner';
-import { generateEmbedCode, contentService } from '@/utils/security';
+import { generateEmbedCode, contentService, SecurityOptions, WatermarkOptions, defaultSecurityOptions, defaultWatermarkOptions } from '@/utils/security';
 
 const Configure = () => {
   const { videoId } = useParams();
@@ -66,7 +66,10 @@ const Configure = () => {
     if (!video) return;
     
     // Convert to format expected by the generateEmbedCode function
-    const formattedSecurityOptions = {
+    const formattedSecurityOptions: SecurityOptions = {
+      preventScreenCapture: securityOptions.preventScreenshots,
+      preventDownload: securityOptions.preventDownloads,
+      restrictIpAccess: false,
       preventScreenRecording: securityOptions.preventRecording,
       preventScreenshots: securityOptions.preventScreenshots,
       preventDownloading: securityOptions.preventDownloads,
@@ -74,16 +77,19 @@ const Configure = () => {
       enableWatermarking: securityOptions.enableWatermarking
     };
 
-    const formattedWatermarkOptions = {
+    const formattedWatermarkOptions: WatermarkOptions = {
       enabled: securityOptions.enableWatermarking,
+      text: '© SecureTeach',
+      position: watermarkOptions.position as any,
+      opacity: watermarkOptions.opacity,
+      size: 'medium',
+      includeUserInfo: true,
       includeName: watermarkOptions.includeStudentName,
       includeEmail: watermarkOptions.includeStudentEmail,
       includeId: false,
       includeTimestamp: watermarkOptions.includeTimestamp,
       includeCustomText: false,
       customText: '',
-      opacity: watermarkOptions.opacity,
-      position: watermarkOptions.position as any,
       isMoving: watermarkOptions.isMoving,
       movementSpeed: watermarkOptions.movementSpeed as any
     };

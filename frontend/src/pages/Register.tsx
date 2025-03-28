@@ -1,158 +1,193 @@
 
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
+import { useNavigate, Link } from 'react-router-dom';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Shield, UserPlus } from 'lucide-react';
-import { authService, type RegisterCredentials } from '@/utils/auth';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { toast } from 'sonner';
+import { Shield, ArrowRight, Loader2 } from 'lucide-react';
+import { authService, type RegisterCredentials, type UserRole } from '@/utils/auth';
+
+// Form schema
+const registerSchema = z.object({
+  name: z.string().min(2, { message: 'Name must be at least 2 characters' }),
+  email: z.string().email({ message: 'Please enter a valid email address' }),
+  password: z.string().min(6, { message: 'Password must be at least 6 characters' }),
+  role: z.enum(['student', 'teacher'], { 
+    required_error: 'Please select a role',
+  }),
+});
+
+type RegisterFormValues = z.infer<typeof registerSchema>;
 
 const Register = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [credentials, setCredentials] = useState<RegisterCredentials>({
-    name: '',
-    email: '',
-    password: '',
-  });
-  
   const navigate = useNavigate();
   
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setCredentials((prev) => ({ ...prev, [name]: value }));
-  };
+  // Initialize the form
+  const form = useForm<RegisterFormValues>({
+    resolver: zodResolver(registerSchema),
+    defaultValues: {
+      name: '',
+      email: '',
+      password: '',
+      role: 'student',
+    },
+  });
   
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!credentials.name || !credentials.email || !credentials.password) {
-      toast.error('Please fill in all fields');
-      return;
-    }
-    
-    if (credentials.password.length < 8) {
-      toast.error('Password must be at least 8 characters');
-      return;
-    }
-    
+  // Handle form submission
+  const onSubmit = async (values: RegisterFormValues) => {
     setIsLoading(true);
     
     try {
+      const credentials: RegisterCredentials = {
+        name: values.name,
+        email: values.email,
+        password: values.password,
+        role: values.role as UserRole,
+      };
+      
       await authService.register(credentials);
-      toast.success('Registration successful! Redirecting to dashboard...');
-      navigate('/dashboard', { replace: true });
+      
+      toast.success('Registration successful! Welcome to SecureTeach.');
+      navigate('/dashboard');
     } catch (error) {
-      toast.error('Registration failed');
       console.error('Registration error:', error);
+      toast.error('Registration failed. Please try again.');
     } finally {
       setIsLoading(false);
     }
   };
   
   return (
-    <div className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-12">
-      <div className="w-full max-w-md">
-        <div className="text-center mb-8">
-          <div className="flex justify-center mb-4">
-            <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
+    <div className="flex min-h-screen items-center justify-center p-4 bg-gradient-to-b from-background to-background/80">
+      <Card className="w-full max-w-md">
+        <CardHeader className="space-y-2 text-center">
+          <div className="flex justify-center mb-2">
+            <div className="rounded-full bg-primary/10 p-2">
               <Shield className="h-6 w-6 text-primary" />
             </div>
           </div>
-          <h1 className="text-2xl font-bold mb-2">Create an account</h1>
-          <p className="text-muted-foreground">
-            Sign up for SecureTeach to protect your content
-          </p>
-        </div>
+          <CardTitle className="text-2xl font-bold">Create an Account</CardTitle>
+          <CardDescription>
+            Sign up for SecureTeach to get started
+          </CardDescription>
+        </CardHeader>
         
-        <div className="glass-card p-6 rounded-lg shadow-lg">
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="name">Full Name</Label>
-              <Input
-                id="name"
+        <CardContent>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              <FormField
+                control={form.control}
                 name="name"
-                type="text"
-                placeholder="John Doe"
-                value={credentials.name}
-                onChange={handleChange}
-                required
-                autoComplete="name"
-                className="transition-all focus:ring-2 focus:ring-primary/20"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Full Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Enter your name" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
+              
+              <FormField
+                control={form.control}
                 name="email"
-                type="email"
-                placeholder="you@example.com"
-                value={credentials.email}
-                onChange={handleChange}
-                required
-                autoComplete="email"
-                className="transition-all focus:ring-2 focus:ring-primary/20"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input type="email" placeholder="Enter your email" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
+              
+              <FormField
+                control={form.control}
                 name="password"
-                type="password"
-                placeholder="••••••••"
-                value={credentials.password}
-                onChange={handleChange}
-                required
-                autoComplete="new-password"
-                className="transition-all focus:ring-2 focus:ring-primary/20"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <Input type="password" placeholder="Create a password" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-              <p className="text-xs text-muted-foreground">
-                Password must be at least 8 characters long
-              </p>
-            </div>
-            
-            <Button
-              type="submit"
-              className="w-full"
-              disabled={isLoading}
-            >
-              {isLoading ? (
-                <span className="flex items-center gap-2">
-                  <svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                  </svg>
-                  Creating account...
-                </span>
-              ) : (
-                <span className="flex items-center gap-2">
-                  <UserPlus className="h-4 w-4" />
-                  Create Account
-                </span>
-              )}
-            </Button>
-            
-            <p className="text-xs text-center text-muted-foreground">
-              By clicking "Create Account", you agree to our 
-              <a href="#" className="text-primary hover:underline"> Terms of Service</a> and 
-              <a href="#" className="text-primary hover:underline"> Privacy Policy</a>.
-            </p>
-          </form>
-        </div>
+              
+              <FormField
+                control={form.control}
+                name="role"
+                render={({ field }) => (
+                  <FormItem className="space-y-3">
+                    <FormLabel>I want to join as</FormLabel>
+                    <FormControl>
+                      <RadioGroup
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                        className="flex flex-col space-y-1"
+                      >
+                        <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value="student" />
+                          </FormControl>
+                          <FormLabel className="font-normal cursor-pointer">
+                            Student - I want to learn
+                          </FormLabel>
+                        </FormItem>
+                        <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value="teacher" />
+                          </FormControl>
+                          <FormLabel className="font-normal cursor-pointer">
+                            Teacher - I want to teach
+                          </FormLabel>
+                        </FormItem>
+                      </RadioGroup>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              
+              <Button type="submit" className="w-full" disabled={isLoading}>
+                {isLoading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Creating Account...
+                  </>
+                ) : (
+                  <>
+                    Create Account
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </>
+                )}
+              </Button>
+            </form>
+          </Form>
+        </CardContent>
         
-        <div className="text-center mt-6">
-          <p className="text-sm text-muted-foreground">
+        <CardFooter className="flex flex-col space-y-4 text-center text-sm">
+          <div className="text-muted-foreground">
+            By creating an account, you agree to our Terms of Service and Privacy Policy.
+          </div>
+          <div>
             Already have an account?{' '}
             <Link to="/login" className="text-primary hover:underline">
-              Sign in
+              Log in
             </Link>
-          </p>
-        </div>
-      </div>
+          </div>
+        </CardFooter>
+      </Card>
     </div>
   );
 };

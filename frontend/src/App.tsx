@@ -23,6 +23,13 @@ import Features from "./pages/Features";
 import Pricing from "./pages/Pricing";
 import Settings from "./pages/Settings";
 import Profile from "./pages/Profile";
+import Courses from "./pages/Courses";
+import CourseCreate from "./pages/CourseCreate";
+import CourseView from "./pages/CourseView";
+import CourseDetails from "./pages/CourseDetails";
+import CourseEdit from "./pages/CourseEdit";
+import StudentDashboard from "./pages/StudentDashboard";
+import TeacherDashboard from "./pages/TeacherDashboard";
 
 const queryClient = new QueryClient();
 
@@ -39,10 +46,13 @@ const ScrollToTop = () => {
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState(authService.getUser());
   
   useEffect(() => {
     const checkAuth = () => {
-      setIsAuthenticated(authService.isAuthenticated());
+      const currentUser = authService.getUser();
+      setIsAuthenticated(!!currentUser);
+      setUser(currentUser);
     };
     
     checkAuth();
@@ -55,6 +65,9 @@ const App = () => {
 
   // These routes should have the footer
   const publicRoutes = ['/', '/login', '/register', '/features', '/pricing'];
+  const shouldShowFooter = (pathname: string) => {
+    return publicRoutes.includes(pathname);
+  };
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -98,27 +111,54 @@ const App = () => {
                   </>
                 } />
                 
-                {/* Protected routes - no footer */}
+                {/* Dashboard routes - role specific */}
                 <Route path="/dashboard" element={
                   <PrivateRoute>
-                    <Dashboard />
+                    {user?.role === 'teacher' || user?.role === 'admin' ? (
+                      <TeacherDashboard />
+                    ) : (
+                      <StudentDashboard />
+                    )}
                   </PrivateRoute>
                 } />
-                <Route path="/upload" element={
+                
+                {/* Course management routes */}
+                <Route path="/courses" element={<Courses />} />
+                <Route path="/courses/create" element={
+                  <PrivateRoute requiresTeacher>
+                    <CourseCreate />
+                  </PrivateRoute>
+                } />
+                <Route path="/courses/:courseId" element={<CourseDetails />} />
+                <Route path="/courses/:courseId/edit" element={
+                  <PrivateRoute requiresTeacher>
+                    <CourseEdit />
+                  </PrivateRoute>
+                } />
+                <Route path="/courses/:courseId/learn" element={
                   <PrivateRoute>
+                    <CourseView />
+                  </PrivateRoute>
+                } />
+                
+                {/* Content management routes */}
+                <Route path="/upload" element={
+                  <PrivateRoute requiresTeacher>
                     <Upload />
                   </PrivateRoute>
                 } />
                 <Route path="/configure/:videoId" element={
-                  <PrivateRoute>
+                  <PrivateRoute requiresTeacher>
                     <Configure />
                   </PrivateRoute>
                 } />
                 <Route path="/library" element={
-                  <PrivateRoute>
+                  <PrivateRoute requiresTeacher>
                     <ContentLibrary />
                   </PrivateRoute>
                 } />
+                
+                {/* User routes */}
                 <Route path="/settings" element={
                   <PrivateRoute>
                     <Settings />
